@@ -1,0 +1,553 @@
+#define VIM_DBG_MASK VIM_DBG_MASK_TCU
+#include <incs.h>
+#include <tcu.h>
+
+/*
+Sponsors Public Key Received (Modulus)
+935CFDE4 FC84B2FE 7F3D0707 4160F6E5 1F0A692E F29D6530 DAA87DB0 8829719E
+38B2FE36 35586A40 7F210EF3 9F5311DA 4ACEA32E 4DBDD41E EB109AE9 AA53C371
+0C9FC2C9 DD0724CD 875B8096 3E8873E9 F5F8A1F0 6C5F9CD9 2FEFA04E 067DBCE2
+1E79186C 65B1DF47 2C74B967 0046CDD7
+
+Sponsors Public Key Received (Exponent)
+00000000 00000000 00000000 00000000 00000000 00000000 00000000 00000000
+00000000 00000000 00000000 00000000 00000000 00000000 00000000 00000000
+00000000 00000000 00000000 00000000 00000000 00000000 00000000 00000000
+00000000 00000000 00000000 00010001
+
+Sponsor Nonce 2CCDCF21AA6C543B
+
+Initialisation Key (KI) 5725DF4F3116AB8C 7016FD9446B075C2 Parity Correct
+
+Plain Text
+03000EB3 8B5725DF 4F3116AB 8C7016FD 9446B075 C2000000 00999990 01110815
+0908352C CDCF21AA 6C543B00 00000000 00000000 00000000 00000000 00000000
+00000000 00000000 00000000 00000000 00000000 00000000 00000000 00000000
+00000000 00000000 00000000 00000045
+
+Sponsors Public Key
+935CFDE4 FC84B2FE 7F3D0707 4160F6E5 1F0A692E F29D6530 DAA87DB0 8829719E
+38B2FE36 35586A40 7F210EF3 9F5311DA 4ACEA32E 4DBDD41E EB109AE9 AA53C371
+0C9FC2C9 DD0724CD 875B8096 3E8873E9 F5F8A1F0 6C5F9CD9 2FEFA04E 067DBCE2
+1E79186C 65B1DF47 2C74B967 0046CDD7
+
+Processing this messsage required 2 DES operations
+Result
+3F410481 7BC59BD2 75ABDBE6 3A89962C A56223B1 FCCD2560 97841625 A056C771
+56ACE056 B4C0C634 E85D909E B99733F8 4700147A DFE2848B 81AD5D16 2F722B3D
+B43CB66D D03B099E B2C147ED 5BE8ACA1 C18C5AE9 6AA7F4F1 B26B2616 1870A97E
+97E5F530 A4CBD132 18692E77 D0B87FC9
+
+Plain Text
+03000F57 E13F4104 817BC59B D275ABDB E63A8996 2CA56223 B1FCCD25 60978416
+25A056C7 7156ACE0 56B4C0C6 34E85D90 9EB99733 F8470014 7ADFE284 8B81AD5D
+162F722B 3DB43CB6 6DD03B09 9EB2C147 ED5BE8AC A1C18C5A E96AA7F4 F1B26B26
+161870A9 7E97E5F5 30A4CBD1 3218692E 77D0B87F C9000003
+
+PinPad Public Key
+C6B7B526 43BD2B2F AEBA5B31 436141F8 C09752D4 110D8465 1815FB08 77B5DB90
+695670AE 7562396E C83F301E 10F52C36 E783389E A59C873E 8C9DF53F 8E67683A
+C5490CC1 CFB5908E 66DAEA8F 62694562 6744F9C1 F0DBE48A C7BB7C81 11222C6D
+C96AD55E DCB3B5D4 DF0B4CDD 5C0E9D21 9F1B7DA5 38739767
+
+PinPad Private Key
+3AD6B857 8D251CFD 70621390 61A01195 A308EB68 89681434 8ECE2B57 5582CE71
+530F5A2B FDEBC88F A9D133E1 232A451E 38AC9CFE 34914566 5AE28673 F68FF525
+4FC3FAC1 F0997615 4B0B4064 838869C6 EA285D66 CBFE78D7 E3F95D10 42D70406
+3F858F20 ACE6A1A3 6055ED16 855B451B 22CDC94E D59CFB91
+
+Result
+35C91696 79E1DF46 56023BB8 AA8ED782 3C7F43D7 77B41442 CAE17B55 114D7BB4
+CEB2A8CE DE9B5744 35592B80 4F02923F CAC3BCBC 79C2A63F CF94605E 916885C9
+E50287C8 725305BC 14FB1BC1 4E644336 5BC772DC 3372250E D1DF5508 F38F5C51
+E395F593 E9A0C32E C3E2A5F2 302DD4CB A6CDED8F 2439C68F
+
+Inputs to generate the signed public key: Ciphertext = SKtcu (Dformat1( PKsp( Dformat1( KI, PPID, DTS, RN ) )))
+
+0800 : 192
+
+< 48.2 Signed Payload........ 35C9169679E1DF4656023BB8AA8ED7823C7F43D7
+<                             77B41442CAE17B55114D7BB4CEB2A8CEDE9B5744
+<                             35592B804F02923FCAC3BCBC79C2A63FCF94605E
+<                             916885C9E50287C8725305BC14FB1BC14E644336
+<                             5BC772DC3372250ED1DF5508F38F5C51E395F593
+<                             E9A0C32EC3E2A5F2302DD4CBA6CDED8F2439C68F
+< 48.3 PIN Pad ID............ 0000000099999001
+
+
+0810 : 192
+
+> 48.1 eKI(KCA).............. 25A55E3F822C5837C5F4DF30767DE6B9
+> 48.2 eKI(KMACH)............ 322CE6D121E235766CCAA8605EE261C6
+> 48.3 Lead Acquirer AIIC.... 303862800000
+> 70 Network Info Code....... 192
+Initialisation Key (KI) 5725DF4F3116AB8C 7016FD9446B075C2 Parity Correct
+Cross Acquirer Key is   D0E0CD08108F5210 51FD617AA2C73461 Parity Correct
+KMACH is                BC7A62E0088FFB2A C7E60E7F8061FB1C Parity Correct
+OWF Datastream is       0000000000000000 0000000062800000
+Acquirer Init Key is    FB027026A8D6A4C1 37E602E32076F1DF Parity Correct
+
+
+0810 : 193
+
+> 48.1 eKIA(KEK1)............ CFBC671BC80F79943A4D9B56551B1FFF
+> 48.2 eKIA(KEK2)............ B3FEC9888821DD63D532AE9D9451EA02
+> 48.3 eKIAv88(PPASN)........ DC390FBDE14076D6
+> 48.4 KEK1 KVC.............. CCDDC7
+> 48.5 KEK2 KVC.............. A11A52
+> 48.6 PPASN KVC............. ED6AEB
+> 70 Network Info Code....... 193
+Acquirer Init Key (KIA) FB027026A8D6A4C1 37E602E32076F1DF Parity Correct
+New PPASN               46D3494961833826 Parity Correct
+New KEK1                518A9D76CDCE4CE5 0B32BFA29E7CB645 Parity Correct
+New KEK2                F734F83258025D49 FBE649B3B3263498 Parity Correct
+
+
+> 48.6 File 1 MAC (FVV)...... 0000000000000000
+> 48.7 File 2 MAC (FVV)...... 0000000000000000
+> 48.8 File 3 MAC (FVV)...... 0000000000000000
+> 48.9 File 4 MAC (FVV)...... 0000000000000000
+> 48.10 File 5 MAC (FVV)..... 0000000000000000
+> 48.11 PIN Key (v28)........ 00000000000000000000000000000000
+> 48.12 MAC Send Key (v48)... 00000000000000000000000000000000
+> 48.13 MAC Recv Key (v24)... 00000000000000000000000000000000
+> 48.14 Data Send (v44)...... 00000000000000000000000000000000
+> 48.15 Data Recv (v22)...... 00000000000000000000000000000000
+> 48.16 PIN Protection KVC... 000000
+> 48.17 MAC Send KVC......... 000000
+> 48.18 MAC Receive KVC...... 000000
+> 48.19 Data Send KVC........ 000000
+> 48.20 Data Receive KVC..... 000000
+> 48.21 Trace Number (STAN).. 000000
+> 48.22 Year................. 0000
+> 53 Security Info........... 0000000000000002
+> 70 Network Info Code....... 170
+AS2805 Part 6.4 Session Keys Processed
+KEK 2 Rolled =  A81904DC32C2BA9D D3F2FB896B104543 Parity Correct
+KEK 1 Rolled =  982FABB9BFFB8CF2 4A8085C78397BF4C Parity Correct
+PIN Key      =  760A6F19DFD2B5DE 760A6F19DFD2B5DE
+MAC Send Key =  8DFAB01D8E941E81 8DFAB01D8E941E81
+MAC Recv Key =  9D002288776A8A00 9D002288776A8A00
+Data Send Key=  864414A64CEAAC96 864414A64CEAAC96
+Data Recv Key=  4E38DFCC5A8D839A 4E38DFCC5A8D839A
+Expected KVCS = 3CA006E9033F5C80FDDB191DCA76DC
+Received KVCS = 000000000000000000000000000000
+
+
+*/
+
+#define PKSP_MOD_LEN 112
+#define PKSP_EXP_LEN 112
+
+#define SKTCU_PKSP_KI_MAX_LEN 120
+
+
+VIM_ERROR_PTR vim_tcu_test_method_WOW
+(
+  VIM_TCU_PTR tcu_instance_ptr
+)
+
+{
+  VIM_UINT8 const pkSPmod[PKSP_MOD_LEN] = {
+  0x93,0x5C,0xFD,0xE4 ,0xFC,0x84,0xB2,0xFE ,0x7F,0x3D,0x07,0x07 ,0x41,0x60,0xF6,0xE5 ,0x1F,0x0A,0x69,0x2E ,0xF2,0x9D,0x65,0x30 ,0xDA,0xA8,0x7D,0xB0 ,0x88,0x29,0x71,0x9E,
+  0x38,0xB2,0xFE,0x36 ,0x35,0x58,0x6A,0x40 ,0x7F,0x21,0x0E,0xF3 ,0x9F,0x53,0x11,0xDA ,0x4A,0xCE,0xA3,0x2E ,0x4D,0xBD,0xD4,0x1E ,0xEB,0x10,0x9A,0xE9 ,0xAA,0x53,0xC3,0x71,
+  0x0C,0x9F,0xC2,0xC9 ,0xDD,0x07,0x24,0xCD ,0x87,0x5B,0x80,0x96 ,0x3E,0x88,0x73,0xE9 ,0xF5,0xF8,0xA1,0xF0 ,0x6C,0x5F,0x9C,0xD9 ,0x2F,0xEF,0xA0,0x4E ,0x06,0x7D,0xBC,0xE2,
+  0x1E,0x79,0x18,0x6C ,0x65,0xB1,0xDF,0x47 ,0x2C,0x74,0xB9,0x67 ,0x00,0x46,0xCD,0xD7
+  };
+
+#if 0
+
+  VIM_UINT8 const pkSPexp[] = {
+  0x00,0x00,0x00,0x00 ,0x00,0x00,0x00,0x00 ,0x00,0x00,0x00,0x00 ,0x00,0x00,0x00,0x00 ,0x00,0x00,0x00,0x00 ,0x00,0x00,0x00,0x00 ,0x00,0x00,0x00,0x00 ,0x00,0x00,0x00,0x00,
+  0x00,0x00,0x00,0x00 ,0x00,0x00,0x00,0x00 ,0x00,0x00,0x00,0x00 ,0x00,0x00,0x00,0x00 ,0x00,0x00,0x00,0x00 ,0x00,0x00,0x00,0x00 ,0x00,0x00,0x00,0x00 ,0x00,0x00,0x00,0x00,
+  0x00,0x00,0x00,0x00 ,0x00,0x00,0x00,0x00 ,0x00,0x00,0x00,0x00 ,0x00,0x00,0x00,0x00 ,0x00,0x00,0x00,0x00 ,0x00,0x00,0x00,0x00 ,0x00,0x00,0x00,0x00 ,0x00,0x00,0x00,0x00,
+  0x00,0x00,0x00,0x00 ,0x00,0x00,0x00,0x00 ,0x00,0x00,0x00,0x00 ,0x00,0x01,0x00,0x01
+  };
+
+#else
+
+  VIM_UINT8 const pkSPexp[]=
+   {
+	  0x01,0x00,0x01
+   };
+
+#endif
+
+  //PinPad Public Key
+  VIM_UINT8 const pkTCUmod[SKTCU_PKSP_KI_MAX_LEN] = {
+  0xC6,0xB7,0xB5,0x26, 0x43,0xBD,0x2B,0x2F, 0xAE,0xBA,0x5B,0x31, 0x43,0x61,0x41,0xF8, 0xC0,0x97,0x52,0xD4, 0x11,0x0D,0x84,0x65, 0x18,0x15,0xFB,0x08, 0x77,0xB5,0xDB,0x90,
+  0x69,0x56,0x70,0xAE, 0x75,0x62,0x39,0x6E, 0xC8,0x3F,0x30,0x1E, 0x10,0xF5,0x2C,0x36, 0xE7,0x83,0x38,0x9E, 0xA5,0x9C,0x87,0x3E, 0x8C,0x9D,0xF5,0x3F, 0x8E,0x67,0x68,0x3A,
+  0xC5,0x49,0x0C,0xC1, 0xCF,0xB5,0x90,0x8E, 0x66,0xDA,0xEA,0x8F, 0x62,0x69,0x45,0x62, 0x67,0x44,0xF9,0xC1, 0xF0,0xDB,0xE4,0x8A, 0xC7,0xBB,0x7C,0x81, 0x11,0x22,0x2C,0x6D,
+  0xC9,0x6A,0xD5,0x5E, 0xDC,0xB3,0xB5,0xD4, 0xDF,0x0B,0x4C,0xDD, 0x5C,0x0E,0x9D,0x21, 0x9F,0x1B,0x7D,0xA5, 0x38,0x73,0x97,0x67
+  };
+
+
+  VIM_UINT8 const pkTCUexp[]=
+   {
+	  0x01,0x00,0x01
+   };
+
+  //PinPad Private Key exponant
+  VIM_UINT8 const skTCUexp[SKTCU_PKSP_KI_MAX_LEN] = {
+  0x3A,0xD6,0xB8,0x57 ,0x8D,0x25,0x1C,0xFD ,0x70,0x62,0x13,0x90 ,0x61,0xA0,0x11,0x95 ,0xA3,0x08,0xEB,0x68 ,0x89,0x68,0x14,0x34 ,0x8E,0xCE,0x2B,0x57 ,0x55,0x82,0xCE,0x71,
+  0x53,0x0F,0x5A,0x2B ,0xFD,0xEB,0xC8,0x8F ,0xA9,0xD1,0x33,0xE1 ,0x23,0x2A,0x45,0x1E ,0x38,0xAC,0x9C,0xFE ,0x34,0x91,0x45,0x66 ,0x5A,0xE2,0x86,0x73 ,0xF6,0x8F,0xF5,0x25,
+  0x4F,0xC3,0xFA,0xC1 ,0xF0,0x99,0x76,0x15 ,0x4B,0x0B,0x40,0x64 ,0x83,0x88,0x69,0xC6 ,0xEA,0x28,0x5D,0x66 ,0xCB,0xFE,0x78,0xD7 ,0xE3,0xF9,0x5D,0x10 ,0x42,0xD7,0x04,0x06,
+  0x3F,0x85,0x8F,0x20 ,0xAC,0xE6,0xA1,0xA3 ,0x60,0x55,0xED,0x16 ,0x85,0x5B,0x45,0x1B ,0x22,0xCD,0xC9,0x4E ,0xD5,0x9C,0xFB,0x91
+  };
+
+
+
+#if 0
+  VIM_UINT8 const skTCUexp[SKTCU_PKSP_KI_MAX_LEN] = {
+  0x00,0x00,0x00,0x00 ,0x00,0x00,0x00,0x00 ,0x00,0x00,0x00,0x00 ,0x00,0x00,0x00,0x00 ,0x00,0x00,0x00,0x00 ,0x00,0x00,0x00,0x00 ,0x00,0x00,0x00,0x00 ,0x00,0x00,0x00,0x00,
+  0x00,0x00,0x00,0x00 ,0x00,0x00,0x00,0x00 ,0x00,0x00,0x00,0x00 ,0x00,0x00,0x00,0x00 ,0x00,0x00,0x00,0x00 ,0x00,0x00,0x00,0x00 ,0x00,0x00,0x00,0x00 ,0x00,0x00,0x00,0x00,
+  0x00,0x00,0x00,0x00 ,0x00,0x00,0x00,0x00 ,0x00,0x00,0x00,0x00 ,0x00,0x00,0x00,0x00 ,0x00,0x00,0x00,0x00 ,0x00,0x00,0x00,0x00 ,0x00,0x00,0x00,0x00 ,0x00,0x00,0x00,0x00,
+  0x00,0x00,0x00,0x00 ,0x00,0x00,0x00,0x00 ,0x00,0x00,0x00,0x00 ,0x00,0x00,0x00,0x00 ,0x00,0x00,0x00,0x00 ,0x00,0x00,0x00,0x00
+  };
+#endif
+
+
+  // Data for testing generation of RSA ciphertext ( 0800:192 )
+
+  VIM_DES_BLOCK const rn = {
+  0x2C,0xCD,0xCF,0x21,0xAA,0x6C,0x54,0x3B
+  };
+
+#if 0
+  VIM_UINT8 const DTS_BCD[6] = {
+  0x11,0x08,0x15,0x09,0x08,0x35
+  };
+#endif
+
+  VIM_RTC_TIME const DTS = {11,8,15,9,8,35,0};
+
+  VIM_UINT8 const KI[16] = {
+  0x57,0x25,0xDF,0x4F,0x31,0x16,0xAB,0x8C,
+  0x70,0x16,0xFD,0x94,0x46,0xB0,0x75,0xC2
+  };
+
+  static VIM_DES_BLOCK const ppid[]= {
+  0x00,0x00,0x00,0x00,0x99,0x99,0x90,0x01
+  };
+
+  // The clear Text is made up od a cancatonation of the above: KI,PPID,DTS,RN padded with zeros and with length of padding on the end
+#if 1
+  VIM_UINT8 const DF1ClearText[PKSP_MOD_LEN] = {
+  0x03,0x00,0x0E,0xB3 ,0x8B,0x57,0x25,0xDF ,0x4F,0x31,0x16,0xAB ,0x8C,0x70,0x16,0xFD ,0x94,0x46,0xB0,0x75 ,0xC2,0x00,0x00,0x00 ,0x00,0x99,0x99,0x90 ,0x01,0x11,0x08,0x15,
+  0x09,0x08,0x35,0x2C ,0xCD,0xCF,0x21,0xAA ,0x6C,0x54,0x3B,0x00 ,0x00,0x00,0x00,0x00 ,0x00,0x00,0x00,0x00 ,0x00,0x00,0x00,0x00 ,0x00,0x00,0x00,0x00 ,0x00,0x00,0x00,0x00,
+  0x00,0x00,0x00,0x00 ,0x00,0x00,0x00,0x00 ,0x00,0x00,0x00,0x00 ,0x00,0x00,0x00,0x00 ,0x00,0x00,0x00,0x00 ,0x00,0x00,0x00,0x00 ,0x00,0x00,0x00,0x00 ,0x00,0x00,0x00,0x00,
+  0x00,0x00,0x00,0x00 ,0x00,0x00,0x00,0x00 ,0x00,0x00,0x00,0x00 ,0x00,0x00,0x00,0x45
+  };
+#endif
+  VIM_UINT8 const CorrectCipherText[SKTCU_PKSP_KI_MAX_LEN] = {
+  0x35,0xC9,0x16,0x96 ,0x79,0xE1,0xDF,0x46 ,0x56,0x02,0x3B,0xB8 ,0xAA,0x8E,0xD7,0x82 ,0x3C,0x7F,0x43,0xD7 ,0x77,0xB4,0x14,0x42 ,0xCA,0xE1,0x7B,0x55 ,0x11,0x4D,0x7B,0xB4,
+  0xCE,0xB2,0xA8,0xCE ,0xDE,0x9B,0x57,0x44 ,0x35,0x59,0x2B,0x80 ,0x4F,0x02,0x92,0x3F ,0xCA,0xC3,0xBC,0xBC ,0x79,0xC2,0xA6,0x3F ,0xCF,0x94,0x60,0x5E ,0x91,0x68,0x85,0xC9,
+  0xE5,0x02,0x87,0xC8 ,0x72,0x53,0x05,0xBC ,0x14,0xFB,0x1B,0xC1 ,0x4E,0x64,0x43,0x36 ,0x5B,0xC7,0x72,0xDC ,0x33,0x72,0x25,0x0E ,0xD1,0xDF,0x55,0x08 ,0xF3,0x8F,0x5C,0x51,
+  0xE3,0x95,0xF5,0x93 ,0xE9,0xA0,0xC3,0x2E ,0xC3,0xE2,0xA5,0xF2 ,0x30,0x2D,0xD4,0xCB ,0xA6,0xCD,0xED,0x8F ,0x24,0x39,0xC6,0x8F
+  };
+
+  // Data for testing generation of Cross Acquirer Key (KCA) and KMACH ( 0810:192 )
+
+  // 48.3 Lead Acquirer AIIC.... 303862800000 - but skip ascii length bytes and convert rest from bcd to ascii
+
+  // note that the ascii acquirer id MUST be NULL terminated as the tcu load function relies on string length
+
+  VIM_CHAR aiic_ascii[8+1] = { 0x36,0x32,0x38,0x30,0x30,0x30,0x30,0x30,0x00 };
+
+  static VIM_DES2_KEY const eKiKCA = {
+  0x25,0xA5,0x5E,0x3F,0x82,0x2C,0x58,0x37,0xC5,0xF4,0xDF,0x30,0x76,0x7D,0xE6,0xB9
+  };
+
+  static VIM_DES2_KEY const eKiKMACH = {
+  0x32,0x2C,0xE6,0xD1,0x21,0xE2,0x35,0x76,0x6C,0xCA,0xA8,0x60,0x5E,0xE2,0x61,0xC6
+  };
+#if 0
+  static VIM_DES2_KEY const KCA = {
+  0xD0,0xE0,0xCD,0x08,0x10,0x8F,0x52,0x10,0x51,0xFD,0x61,0x7A,0xA2,0xC7,0x34,0x61
+  };
+
+  static VIM_DES2_KEY const KMACH = {
+  0xBC,0x7A,0x62,0xE0,0x08,0x8F,0xFB,0x2A,
+  0xC7,0xE6,0x0E,0x7F,0x80,0x61,0xFB,0x1C
+  };
+#endif
+  // expected value of eKIAPPID
+  static VIM_DES_BLOCK const eKIA_PPID_chk = {
+  0x65,0x56,0x01,0x86,0xC5,0x8E,0xF2,0xA5
+  };
+
+
+  static VIM_DES2_KEY const eKIA_KEK2 = {
+  0xB3,0xFE,0xC9,0x88,0x88,0x21,0xDD,0x63,
+  0xD5,0x32,0xAE,0x9D,0x94,0x51,0xEA,0x02
+  };
+
+  static VIM_DES_BLOCK const eKIAv88_PPASN = {
+  0xDC,0x39,0x0F,0xBD,0xE1,0x40,0x76,0xD6
+  };
+
+#if 0
+  static VIM_DES2_KEY const KIA[16] = {
+  0xF7,0x8C,0xE3,0x0E,0x0E,0xA1,0x89,0xDF,
+  0x16,0x76,0xA7,0x6E,0xC4,0xD3,0x62,0xBA
+  };
+
+  static VIM_DES2_KEY const eKIA_KEK1 = {
+  0x73,0x4A,0x1B,0xF9,0xBA,0x3F,0xF6,0x7F,
+  0xDE,0xEA,0x2F,0xF1,0x2C,0x81,0xDA,0xE4
+  };
+
+  static VIM_DES_KVC KEK1_kvc = {0x60,0x6B,0x5F};
+
+#else
+
+  static VIM_DES2_KEY const eKIA_KEK1 = {
+  0xCF,0xBC,0x67,0x1B,0xC8,0x0F,0x79,0x94,
+  0x3A,0x4D,0x9B,0x56,0x55,0x1B,0x1F,0xFF
+  };
+
+  static VIM_DES_KVC KEK1_kvc =  {0xCC,0xDD,0xC7};
+
+#endif
+#if 0
+  static VIM_DES_KVC KEK2_kvc =  {0xA1,0x1A,0x52};
+  static VIM_DES_KVC PPASN_kvc = {0xED,0x6A,0xEB};
+#endif
+
+  VIM_UINT8 skTCU_pkSP_KI[SKTCU_PKSP_KI_MAX_LEN];
+  VIM_UINT8 ClearText[SKTCU_PKSP_KI_MAX_LEN];
+
+  VIM_DES_BLOCK eKIA_PPID_gen;
+  VIM_DES_BLOCK tmp_ppid;
+
+  VIM_SIZE ResultLength = 0;
+  VIM_RTC_UPTIME MsSincePowerOn1,MsSincePowerOn2;
+
+   //VIM_DBG_MESSAGE("Testing WOW key management");
+  /* select sponsor */
+  VIM_ERROR_RETURN_ON_FAIL(vim_tcu_set_sponsor( tcu_instance_ptr,WOW_SPONSOR));
+
+  VIM_ERROR_RETURN_ON_FAIL(vim_tcu_set_ppid( tcu_instance_ptr, ppid ));
+
+  /* get PPID */
+  VIM_ERROR_RETURN_ON_FAIL( vim_tcu_get_ppid (tcu_instance_ptr, &tmp_ppid));
+  VIM_ERROR_RETURN_ON_FAIL( vim_mem_compare( &ppid, &tmp_ppid, VIM_SIZEOF(ppid)));
+  // Test the processing of the response to the 0800:191
+
+  VIM_ERROR_RETURN_ON_FAIL(vim_tcu_set_skTCU(
+   tcu_instance_ptr,
+   pkTCUmod,
+   skTCUexp,
+   SKTCU_PKSP_KI_MAX_LEN,
+   SKTCU_PKSP_KI_MAX_LEN));
+
+  VIM_ERROR_RETURN_ON_FAIL(vim_tcu_set_pkSP(
+	tcu_instance_ptr,
+	pkSPmod,
+	VIM_SIZEOF(pkSPmod),
+	pkSPexp,
+	VIM_SIZEOF(pkSPexp)));
+
+  //VIM_DBG_DATA( DF1ClearText, PKSP_MOD_LEN );
+  // get the TCU signature and store it in the private data field
+  {
+    VIM_UINT8 tmp_buffer[1024];
+    VIM_UINT16 check_sum=0;
+    VIM_SIZE cnt;
+    /* encrypt by sponsor key */
+    VIM_ERROR_RETURN_ON_FAIL(vim_rsa_encrypt (
+      tmp_buffer, 
+      DF1ClearText, 
+      pkSPmod, PKSP_MOD_LEN, 
+      pkSPexp, VIM_SIZEOF(pkSPexp)));
+    /* encrypt by tcu key */
+    vim_mem_move( tmp_buffer+5, tmp_buffer, 112 );
+    vim_mem_copy( tmp_buffer, "\x03\x00\x0F", 3 );
+    vim_mem_copy( tmp_buffer+117, "\x00\x00\x03", 3 );
+    /* get checksum */
+    check_sum=0;
+    for(cnt=5; cnt<120; cnt++ )
+    {
+      check_sum=((check_sum>>15)&1)|(check_sum<<1);
+      check_sum+=tmp_buffer[cnt];
+    }
+    /* save the checksum*/
+    tmp_buffer[3]=check_sum>>8;
+    tmp_buffer[4]=check_sum;
+    /* clear text */
+    //VIM_DBG_DATA( tmp_buffer, SKTCU_PKSP_KI_MAX_LEN );
+    /* RSA encrypt by TCU */
+    VIM_ERROR_RETURN_ON_FAIL(vim_rsa_encrypt (
+      tmp_buffer, 
+      tmp_buffer, 
+      pkTCUmod, SKTCU_PKSP_KI_MAX_LEN, 
+      skTCUexp, SKTCU_PKSP_KI_MAX_LEN));
+    //VIM_DBG_DATA( tmp_buffer, SKTCU_PKSP_KI_MAX_LEN );
+    VIM_ERROR_RETURN_ON_FAIL( vim_mem_compare( tmp_buffer, CorrectCipherText, SKTCU_PKSP_KI_MAX_LEN ));
+  }
+  
+   //VIM_DBG_MESSAGE("Generating RSA cryptogram");
+
+  // get a timestamp
+  vim_rtc_get_uptime( &MsSincePowerOn1 );
+  //VIM_DBG_UPTIME( MsSincePowerOn1 );
+
+  VIM_ERROR_RETURN_ON_FAIL(vim_tcu_get_skTCU_pkSP_KI(
+	tcu_instance_ptr,
+	&skTCU_pkSP_KI,
+	&ResultLength,
+	SKTCU_PKSP_KI_MAX_LEN,
+	&DTS,
+	&rn));
+
+  // get another timestamp
+  vim_rtc_get_uptime( &MsSincePowerOn2 );
+  //VIM_DBG_UPTIME( MsSincePowerOn2 );
+  //VIM_DBG_UPTIME( MsSincePowerOn2-MsSincePowerOn1 );
+
+  // compare our result with the sample cipher text from WOW: note this uses a fixed KI,
+  // so the driver needs to be modified to use this instead of a randomly generated one
+  //VIM_DBG_DATA( skTCU_pkSP_KI, SKTCU_PKSP_KI_MAX_LEN );
+  //VIM_DBG_DATA( CorrectCipherText, SKTCU_PKSP_KI_MAX_LEN );
+  VIM_ERROR_RETURN_ON_FAIL( vim_mem_compare( skTCU_pkSP_KI, CorrectCipherText, SKTCU_PKSP_KI_MAX_LEN ));
+
+   //VIM_DBG_MESSAGE("0800:192 PASS: (RSA cryptogram Verified against Test Data)");
+
+  /* decrypt outer cryptogram */
+  VIM_ERROR_RETURN_ON_FAIL(vim_rsa_encrypt(
+	ClearText,
+	CorrectCipherText,
+	pkTCUmod,
+	VIM_SIZEOF(pkTCUmod),
+	pkTCUexp,
+	VIM_SIZEOF(pkTCUexp)));
+
+
+  /* verify header */
+  VIM_ERROR_RETURN_ON_FAIL(vim_mem_compare("\x03\x00\x0F",ClearText,3));
+
+   //VIM_DBG_MESSAGE("0800:192 PASS: (RSA cryptogram partially decrypted )");
+
+  /* verify checksum */
+  VIM_ERROR_RETURN_ON_FAIL(vim_checksum_verify(
+	&ClearText[3],
+	VIM_CHECKSUM_SIZE,
+	&ClearText[5],
+	VIM_SIZEOF(ClearText)-5));
+
+  /* verify padding */
+  VIM_ERROR_RETURN_ON_MISMATCH(ClearText[VIM_SIZEOF(ClearText)-1],3);
+
+  #if 0
+  /* decrypt inner cryptogram */
+  VIM_ERROR_RETURN_ON_FAIL(vim_rsa_encrypt(
+	ClearText,
+	&ClearText[5],
+	pkSPmod,
+	VIM_SIZEOF(pkSPmod),
+	pkSPexp,
+	VIM_SIZEOF(pkSPexp)));
+
+  /* verify header */
+  VIM_ERROR_RETURN_ON_FAIL(vim_mem_compare("\x03\x00\x0E",ClearText,3));
+
+  /* verify checksum */
+  VIM_ERROR_RETURN_ON_FAIL(vim_checksum_verify(
+	&ClearText[3],
+	VIM_CHECKSUM_SIZE,
+	&ClearText[5],
+	VIM_SIZEOF(pkSPmod)-5));
+
+  /* check against  KI */
+  VIM_ERROR_RETURN_ON_FAIL(vim_mem_compare( &KI, &ClearText[5],VIM_SIZEOF(KI) ));
+
+ //VIM_DBG_VAR(KI);
+  /* verify the parity of KI */
+  VIM_ERROR_RETURN_ON_FAIL(vim_parity_is_odd(&KI,VIM_SIZEOF(KI)));
+
+  /* validate the PPID */
+  VIM_ERROR_RETURN_ON_FAIL(vim_mem_compare(
+	&clear_text[5+16],
+	&PPID,
+	VIM_SIZEOF(PPID)));
+
+  /* validate DTS */
+  VIM_ERROR_RETURN_ON_FAIL(vim_mem_compare(
+	&clear_text[5+16+8],
+	DTS_expected,
+	VIM_SIZEOF(DTS_expected)));
+
+  /* validate the RN */
+  VIM_ERROR_RETURN_ON_FAIL(vim_mem_compare(
+	&clear_text[5+16+8+6],
+	&RN,
+	VIM_SIZEOF(RN)));
+
+  /* verify padding */
+  VIM_ERROR_RETURN_ON_MISMATCH(clear_text[VIM_SIZEOF(pkSP_modulus)-1],69);
+
+#endif
+
+  // if we get this far then the cipher text sent out in the 192 is correct.
+
+  // Now test the processing of the response to the 0800:192
+
+  /* Set the acquirer */
+  VIM_ERROR_RETURN_ON_FAIL(vim_tcu_set_acquirer(
+	tcu_instance_ptr,
+	aiic_ascii));
+
+  /* Decrypt and store the cross acquirer key to the tcu module: RDD nb. new crypto fn created to use varient v44 of the KI rather than the straight KI */
+
+  VIM_ERROR_RETURN_ON_FAIL( vim_tcu_load_KCA_and_KMACH( tcu_instance_ptr, &eKiKCA, &eKiKMACH ));
+
+  /* Generate acquirer initialisation keys from the KCA */
+  VIM_ERROR_RETURN_ON_FAIL(vim_tcu_derive_KIA_and_KMACI_from_KCA(
+	tcu_instance_ptr));
+
+  /* send acquirer proof eKIA(PPID) */
+  VIM_ERROR_RETURN_ON_FAIL(vim_tcu_get_eKIA_PPID(
+  tcu_instance_ptr,
+  &eKIA_PPID_gen));
+
+  VIM_ERROR_RETURN_ON_FAIL( vim_mem_compare( &eKIA_PPID_gen, &eKIA_PPID_chk, VIM_SIZEOF(eKIA_PPID_chk) ));
+
+
+  // if we get this far then the KIA proof sent out in the 193 is correct.
+   //VIM_DBG_MESSAGE("0800:193 PASS: ( KIA Verified against Test Data )");
+
+  /* decrypt and store eKIAv88(PPASN) eKIA(TMK1) and eKIA(TMK2) */
+
+#if 0
+
+
+ vim_tcu_load_kia( tcu_instance_ptr, KIA );
+
+
+#endif
+
+  VIM_ERROR_RETURN_ON_FAIL( vim_tcu_load_KEK1_KEK2_and_PPASN_using_KIA(
+	tcu_instance_ptr,
+  &eKIA_KEK1,
+  &eKIA_KEK2,
+  &eKIAv88_PPASN));
+
+  /* verify the KEK1 KVC */
+  VIM_ERROR_RETURN_ON_FAIL(vim_tcu_verify_kvc_KT(
+  tcu_instance_ptr,
+  &KEK1_kvc));
+
+  //VIM_DBG_MESSAGE("0800:170 PASS: ( KEK1 Verified against Test Data )");
+
+ return VIM_ERROR_NONE;
+}
+
+
+/*----------------------------------------------------------------------------*/
+VIM_ERROR_PTR vim_tcu_test_WOW(void)
+{
+  VIM_ERROR_RETURN_ON_FAIL(vim_tcu_test_method(vim_tcu_test_method_WOW));
+  /* return without error */
+  return VIM_ERROR_NONE;
+}
+
